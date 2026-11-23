@@ -1,0 +1,2112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tidewell — Tides in Motion</title>
+  <style>
+    @font-face {
+      font-family: 'Inter';
+      src: url('https://fonts.gstatic.com/s/inter/v20/UcC73FwrK3iLTeHuS_nVMrMxCp50SjIa1ZL7.woff2') format('woff2');
+      font-weight: 100 900;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    :root {
+      --bg: #F1ECEA;
+      --ink: #1F2430;
+      --muted: #938B90;
+      --dark: #12141B;
+      --sky1: #C0C9D9;
+      --sky2: #EFCEBE;
+      --peach: #DDAD95;
+      --lavender: #B0AEC6;
+      --harbour: #7DA3BB;
+      --sand: #EBC9AE;
+      --rose: #BF9FA5;
+      --slate: #4C6165;
+      --ice: #BAD9E6;
+      --sub-grey: #5B5A62;
+      --sky-grey: #8D8893;
+      --manifesto-grey: #6E7180;
+      --cta-hover: #2E3546;
+
+      --u: 1px;
+      --n: 1px;
+      --hfs: 106px;
+      --ic: 65.7px;
+      --pfs: 48px;
+      --sfs: 60px;
+      --mfs: 72px;
+      --camw: 273px;
+      --cw: 218;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      width: 100%;
+      min-height: 100%;
+      background-color: var(--bg);
+      color: var(--ink);
+      font-family: 'Inter', system-ui, -apple-system, "Segoe UI", sans-serif;
+      font-weight: 500;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      overflow-x: clip;
+    }
+
+    /* Fixed Navigation */
+    #site-nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: calc(86 * var(--n));
+      padding: 0 calc(40 * var(--n));
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      z-index: 50;
+      pointer-events: none;
+    }
+
+    #site-nav > * {
+      pointer-events: auto;
+    }
+
+    .nav-logo {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: calc(46 * var(--n));
+      height: calc(46 * var(--n));
+      color: var(--ink);
+      text-decoration: none;
+      opacity: 0;
+      transition: color 0.35s ease;
+    }
+
+    .nav-logo svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: calc(28 * var(--n));
+      list-style: none;
+    }
+
+    @media (max-width: 819.98px) {
+      .nav-links {
+        display: none;
+      }
+    }
+
+    body.is-mobile .nav-links {
+      display: none;
+    }
+
+    .nav-links a {
+      display: inline-block;
+      font-size: calc(15 * var(--n));
+      font-weight: 400;
+      letter-spacing: -0.005em;
+      color: var(--muted);
+      text-decoration: none;
+      opacity: 0;
+      transform: translateY(6px);
+      transition: color 0.25s ease;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.current {
+      color: var(--ink);
+    }
+
+    .nav-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: calc(8 * var(--n));
+      height: calc(42 * var(--n));
+      padding: 0 calc(16 * var(--n)) 0 calc(20 * var(--n));
+      border-radius: calc(12 * var(--n));
+      background-color: var(--ink);
+      color: var(--bg);
+      font-size: calc(15 * var(--n));
+      font-weight: 500;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      white-space: nowrap;
+      clip-path: inset(0 0 0 100% round calc(12 * var(--n)));
+      transition: background-color 0.25s ease, color 0.25s ease;
+    }
+
+    .nav-cta:hover {
+      background-color: var(--cta-hover);
+    }
+
+    .nav-cta svg {
+      width: calc(16 * var(--n));
+      height: calc(16 * var(--n));
+      flex-shrink: 0;
+    }
+
+    /* Dark Nav State */
+    body.dark-nav .nav-logo {
+      color: #FFFFFF;
+    }
+
+    body.dark-nav .nav-links a {
+      color: #8C8F9A;
+    }
+
+    body.dark-nav .nav-links a:hover,
+    body.dark-nav .nav-links a.current {
+      color: #FFFFFF;
+    }
+
+    body.dark-nav .nav-cta {
+      background-color: #FFFFFF;
+      color: var(--ink);
+    }
+
+    body.dark-nav .nav-cta:hover {
+      background-color: var(--bg);
+    }
+
+    /* Section 1: Story (1600vh) */
+    #story {
+      position: relative;
+      width: 100%;
+      height: 1600vh;
+    }
+
+    /* Hero Header */
+    #hero {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      z-index: 9;
+      pointer-events: none;
+      will-change: transform;
+    }
+
+    #hero-headline {
+      position: absolute;
+      top: 41%;
+      left: 0;
+      width: 100%;
+      height: 0;
+      font-size: var(--hfs);
+      font-weight: 560;
+      letter-spacing: -0.035em;
+      line-height: 1;
+      color: var(--ink);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      white-space: nowrap;
+    }
+
+    #word-row {
+      position: absolute;
+      left: 50%;
+      top: 0;
+      height: 1em;
+      transform: translateY(-50%);
+      pointer-events: none;
+    }
+
+    .hero-char {
+      position: absolute;
+      top: 0;
+      left: 0;
+      display: inline-block;
+      line-height: 1;
+      white-space: pre;
+      opacity: 0;
+      will-change: transform, clip-path, opacity;
+    }
+
+    #icon-layer {
+      position: absolute;
+      left: 50%;
+      top: 0;
+      height: var(--ic);
+      transform: translateY(-50%);
+      pointer-events: none;
+    }
+
+    .pixel-icon {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: var(--ic);
+      height: var(--ic);
+      opacity: 0;
+      transform-origin: center center;
+      will-change: transform, opacity, filter;
+    }
+
+    .pixel-icon svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+      shape-rendering: crispEdges;
+    }
+
+    #paper-plane {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: calc(62 * var(--u));
+      height: calc(62 * var(--u));
+      margin-left: calc(-31 * var(--u));
+      margin-top: calc(-31 * var(--u));
+      background-image: url('https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20261118_061547_979f8673-f904-4102-90a0-6458bce33bc8.png&w=1200&q=85');
+      background-size: 336.700% 492.611%;
+      background-position: 84.495% 76.913%;
+      background-repeat: no-repeat;
+      opacity: 0;
+      pointer-events: none;
+      will-change: transform, opacity;
+    }
+
+    /* Pinned Stage */
+    #stage {
+      position: sticky;
+      top: 0;
+      width: 100%;
+      height: 100vh;
+      height: 100svh;
+      overflow: hidden;
+      background-color: var(--bg);
+    }
+
+    /* Process Block (z 4) */
+    #process-block {
+      position: absolute;
+      top: 20%;
+      left: 0;
+      width: 100%;
+      padding: 0 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      z-index: 4;
+      opacity: 0;
+      pointer-events: none;
+      will-change: opacity;
+    }
+
+    body.is-mobile #process-block {
+      top: 17%;
+    }
+
+    .process-headline {
+      font-size: var(--pfs);
+      font-weight: 500;
+      line-height: 1.12;
+      letter-spacing: -0.03em;
+      color: var(--ink);
+    }
+
+    .process-line {
+      display: block;
+      white-space: nowrap;
+    }
+
+    .p-word {
+      display: inline-block;
+      opacity: 0;
+      transform: translateY(0.35em);
+      filter: blur(6px);
+      will-change: transform, opacity, filter;
+    }
+
+    .p-word.muted {
+      color: var(--muted);
+    }
+
+    .p-chip {
+      display: inline-block;
+      width: 1.05em;
+      height: 0.92em;
+      border-radius: 0.16em;
+      vertical-align: -0.12em;
+      margin: 0 0.14em;
+      box-shadow: 0 0.06em 0.18em rgba(31, 36, 48, 0.18);
+      background-image: url('https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20261118_061433_df51e37b-d8b8-40b1-9830-01ea6c20c83d.png&w=300&q=85');
+      background-size: 200% 200%;
+      background-position: 100% 0%;
+      background-repeat: no-repeat;
+    }
+
+    #process-subline {
+      font-size: calc(var(--pfs) * 0.27);
+      font-weight: 400;
+      color: var(--sub-grey);
+      margin-top: calc(var(--pfs) * 0.42);
+      opacity: 0;
+      transform: translateY(8px);
+      will-change: transform, opacity;
+    }
+
+    #process-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: calc(var(--pfs) * 0.14);
+      height: calc(var(--pfs) * 0.64);
+      font-size: calc(var(--pfs) * 0.25);
+      font-weight: 500;
+      padding: 0 calc(var(--pfs) * 0.28) 0 calc(var(--pfs) * 0.32);
+      border-radius: calc(var(--pfs) * 0.2);
+      margin-top: calc(var(--pfs) * 0.38);
+      background-color: var(--ink);
+      color: var(--bg);
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      opacity: 0;
+      transform: translateY(8px);
+      transition: background-color 0.25s ease;
+      will-change: transform, opacity;
+    }
+
+    #process-btn:hover {
+      background-color: var(--cta-hover);
+    }
+
+    #process-btn svg {
+      width: 1.1em;
+      height: 1.1em;
+      flex-shrink: 0;
+    }
+
+    /* Cards Layer (z 2) */
+    #cards-layer {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      pointer-events: none;
+      --cw: 218;
+    }
+
+    .art-card {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: calc(var(--cw) * 1px);
+      height: calc(var(--cw) * 1.32px);
+      margin-left: calc(var(--cw) * -0.5px);
+      margin-top: calc(var(--cw) * -0.66px);
+      border-radius: calc(var(--cw) * 0.075px);
+      box-shadow:
+        0 calc(var(--cw) * 0.03px) calc(var(--cw) * 0.09px) rgba(31, 36, 48, 0.16),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.35);
+      background-size: 200% 200%;
+      background-repeat: no-repeat;
+      transform-origin: 50% 50%;
+      will-change: transform, opacity;
+      opacity: 0;
+    }
+
+    /* Sky Panel (z 6) */
+    #sky-panel {
+      position: absolute;
+      inset: 0;
+      z-index: 6;
+      overflow: hidden;
+      visibility: hidden;
+      pointer-events: none;
+      will-change: clip-path;
+    }
+
+    #sky-plate {
+      position: absolute;
+      inset: -4%;
+      background-image: url('https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20261118_061434_a222c9d2-715b-44b7-873f-0548d1624211.png&w=2400&q=85');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      transform-origin: center center;
+      will-change: transform;
+    }
+
+    #sky-video {
+      position: absolute;
+      left: -4%;
+      top: -4%;
+      width: 108%;
+      height: 108%;
+      object-fit: cover;
+      opacity: 0;
+      transition: opacity 1.2s ease;
+      transform-origin: center center;
+      will-change: transform, opacity;
+    }
+
+    #sky-video.playing {
+      opacity: 0.78;
+    }
+
+    #sky-camera-wrap {
+      position: absolute;
+      left: 50%;
+      top: 51%;
+      width: var(--camw);
+      height: calc(var(--camw) / 1.094);
+      margin-left: calc(var(--camw) * -0.5);
+      margin-top: calc(var(--camw) / 1.094 * -0.5);
+      perspective: 900px;
+      pointer-events: none;
+    }
+
+    #sky-camera {
+      width: 100%;
+      height: 100%;
+      background-image: url('https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20261118_061547_10365665-40d3-4390-944f-7bcb10dc6d4a.png&w=1400&q=85');
+      background-size: 136.799% 149.701%;
+      background-position: 55.019% 42.470%;
+      background-repeat: no-repeat;
+      filter: drop-shadow(0 calc(var(--camw) * 0.12) calc(var(--camw) * 0.08) rgba(60, 52, 70, 0.22));
+      transform-origin: 54% 31%;
+      will-change: transform;
+    }
+
+    .sky-words {
+      position: absolute;
+      font-size: var(--sfs);
+      font-weight: 500;
+      letter-spacing: -0.03em;
+      line-height: 1.08;
+      color: var(--ink);
+      white-space: nowrap;
+    }
+
+    #sky-words-tl {
+      left: calc(40 * var(--n));
+      top: calc(104 * var(--n));
+    }
+
+    #sky-words-br {
+      right: calc(40 * var(--n));
+      bottom: calc(46 * var(--n));
+    }
+
+    body.is-mobile #sky-words-tl {
+      left: 16px;
+      top: 84px;
+    }
+
+    body.is-mobile #sky-words-br {
+      right: 16px;
+      bottom: 28px;
+    }
+
+    .s-word {
+      display: inline-block;
+      opacity: 0;
+      transform: translateY(0.3em);
+      filter: blur(6px);
+      will-change: transform, opacity, filter;
+    }
+
+    .s-word.grey {
+      color: var(--sky-grey);
+    }
+
+    /* Blackout Layer (z 8) */
+    #blackout {
+      position: absolute;
+      inset: 0;
+      z-index: 8;
+      background-color: var(--dark);
+      opacity: 0;
+      pointer-events: none;
+      will-change: opacity;
+    }
+
+    /* Section 2: Manifesto (950vh) */
+    #manifesto {
+      position: relative;
+      width: 100%;
+      height: 950vh;
+      background-color: var(--dark);
+    }
+
+    #manifesto-stage {
+      position: sticky;
+      top: 0;
+      width: 100%;
+      height: 100vh;
+      height: 100svh;
+      overflow: hidden;
+      background-color: var(--dark);
+    }
+
+    #manifesto-track {
+      position: absolute;
+      left: 0;
+      top: 50%;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: calc(var(--mfs) * 0.32);
+      white-space: nowrap;
+      font-size: var(--mfs);
+      font-weight: 500;
+      letter-spacing: -0.03em;
+      color: #FFFFFF;
+      will-change: transform;
+    }
+
+    /* Manifesto Items */
+    .m-intro {
+      position: relative;
+      font-size: 0.72em;
+      display: flex;
+      flex-direction: column;
+      gap: 0.26em;
+      line-height: 1.05;
+      flex-shrink: 0;
+    }
+
+    .m-intro-row {
+      display: flex;
+      align-items: baseline;
+      gap: 0.26em;
+    }
+
+    .m-word {
+      display: inline-block;
+      flex-shrink: 0;
+      line-height: 1.05;
+    }
+
+    .m-word.grey {
+      color: var(--manifesto-grey);
+    }
+
+    .m-char {
+      display: inline-block;
+      opacity: 0;
+      transform: translateY(0.55em) rotate(14deg);
+      transform-origin: 0% 100%;
+      will-change: transform, opacity;
+    }
+
+    /* Labels / Stickers */
+    .m-label-small {
+      font-size: calc(var(--mfs) * 0.24);
+      padding: 0.3em 0.6em;
+      border-radius: 0.16em;
+      color: var(--ink);
+      font-weight: 500;
+      line-height: 1;
+      letter-spacing: -0.015em;
+      box-shadow: 0 0.12em 0.3em rgba(0, 0, 0, 0.35);
+      display: inline-block;
+      white-space: nowrap;
+      transform-origin: center center;
+      opacity: 0;
+      will-change: transform, opacity;
+    }
+
+    .m-label-pos {
+      position: absolute;
+      pointer-events: none;
+    }
+
+    .m-label-big {
+      position: relative;
+      font-size: calc(var(--mfs) * 0.42);
+      padding: 0.28em 0.62em 0.3em;
+      border-radius: 0.16em;
+      color: var(--ink);
+      font-weight: 500;
+      line-height: 1;
+      letter-spacing: -0.02em;
+      box-shadow: 0 0.12em 0.3em rgba(0, 0, 0, 0.35);
+      display: inline-block;
+      white-space: nowrap;
+      flex-shrink: 0;
+      transform-origin: center center;
+      opacity: 0;
+      will-change: transform, opacity;
+    }
+
+    .m-label-big .ink-dot {
+      position: absolute;
+      top: 0.22em;
+      right: 0.22em;
+      width: 0.16em;
+      height: 0.16em;
+      border-radius: 50%;
+      background-color: var(--ink);
+    }
+
+    .m-stack {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.08em;
+      flex-shrink: 0;
+    }
+
+    /* 3D Trinkets from Sticker Sheet (w=700) */
+    .m-obj {
+      display: inline-block;
+      flex-shrink: 0;
+      background-image: url('https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20261118_061547_979f8673-f904-4102-90a0-6458bce33bc8.png&w=700&q=85');
+      background-repeat: no-repeat;
+      transform-origin: center center;
+      opacity: 0;
+      will-change: transform, opacity;
+    }
+
+    /* Conch shell: [.109, .121, .430, .422] -> dx=0.321, dy=0.301 */
+    .m-obj.conch {
+      background-size: 311.526% 332.226%;
+      background-position: 16.053% 17.310%;
+      aspect-ratio: 0.321 / 0.301;
+    }
+
+    /* Pearl: [.625, .152, .863, .395] -> dx=0.238, dy=0.243 */
+    .m-obj.pearl {
+      background-size: 420.168% 411.523%;
+      background-position: 82.021% 20.079%;
+      aspect-ratio: 0.238 / 0.243;
+    }
+
+    /* Capsule: [.094, .656, .418, .793] -> dx=0.324, dy=0.137 */
+    .m-obj.capsule {
+      background-size: 308.642% 729.927%;
+      background-position: 13.905% 76.014%;
+      aspect-ratio: 0.324 / 0.137;
+    }
+
+    /* Sparkle SVG */
+    .m-sparkle {
+      display: inline-block;
+      width: 0.34em;
+      height: 0.34em;
+      flex-shrink: 0;
+      transform-origin: center center;
+      opacity: 0;
+      will-change: transform, opacity;
+    }
+
+    .m-sparkle svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    .m-spacer {
+      width: 30vw;
+      flex-shrink: 0;
+    }
+
+    /* Reduced Motion Mode (activated when body.reduced-motion is set) */
+    body.reduced-motion #story {
+      height: auto;
+    }
+    body.reduced-motion #hero {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100vh;
+    }
+    body.reduced-motion #stage {
+      position: relative;
+      height: 100vh;
+    }
+    body.reduced-motion #manifesto {
+      height: auto;
+      padding: 120px 24px;
+    }
+    body.reduced-motion #manifesto-stage {
+      position: relative;
+      height: auto;
+      overflow: visible;
+    }
+    body.reduced-motion #manifesto-track {
+      position: relative;
+      top: auto;
+      flex-wrap: wrap;
+      white-space: normal;
+      transform: none !important;
+    }
+  </style>
+</head>
+<body id="top">
+  <!-- 1. Fixed Nav -->
+  <nav id="site-nav" aria-label="Main navigation">
+    <a href="#top" class="nav-logo" id="nav-logo" aria-label="Tidewell home">
+      <svg viewBox="0 0 48 48" aria-hidden="true">
+        <circle cx="24" cy="12.5" r="8.5" fill="currentColor" />
+        <path d="M6 27c6-5 13-5 18 0s12 5 18 0v6c-6 5-13 5-18 0S12 28 6 33z" fill="currentColor" />
+        <path d="M10 39c5-3.6 10-3.6 14 0s9 3.6 14 0" fill="none" stroke="currentColor" stroke-width="4.2" stroke-linecap="round" />
+      </svg>
+    </a>
+
+    <ul class="nav-links" id="nav-links">
+      <li><a href="#top" data-target="top" class="current">Home</a></li>
+      <li><a href="#process" data-target="process">Our Team</a></li>
+      <li><a href="#process" data-target="process">Cases</a></li>
+      <li><a href="#product" data-target="product">Features</a></li>
+      <li><a href="#product" data-target="product">Pricing</a></li>
+      <li><a href="#manifesto" data-target="manifesto">Contact</a></li>
+    </ul>
+
+    <a href="#process" data-target="process" class="nav-cta" id="nav-cta">
+      <span>View Collections</span>
+      <svg viewBox="0 0 16 16" aria-hidden="true">
+        <path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+    </a>
+  </nav>
+
+  <!-- 2. Story Section (1600vh) -->
+  <section id="story">
+    <!-- Hero Header -->
+    <header id="hero">
+      <div id="hero-headline" role="heading" aria-level="1" aria-label="Tides in Motion">
+        <div id="word-row"></div>
+        <div id="icon-layer"></div>
+      </div>
+      <div id="paper-plane"></div>
+    </header>
+
+    <!-- Sticky Pinned Stage -->
+    <div id="stage">
+      <!-- Process Block (z 4) -->
+      <div id="process-block">
+        <div class="process-headline">
+          <span class="process-line">
+            <span class="p-word muted">From</span>
+            <span class="p-word">shore</span>
+            <span class="p-word p-chip"></span>
+            <span class="p-word muted">to</span>
+            <span class="p-word">product</span>
+          </span>
+          <span class="process-line">
+            <span class="p-word">built</span>
+            <span class="p-word muted">through</span>
+            <span class="p-word">real</span>
+            <span class="p-word">process</span>
+          </span>
+        </div>
+        <p id="process-subline">Turning concepts into working digital products.</p>
+        <a href="#product" data-target="product" id="process-btn">
+          <span>View All Collections</span>
+          <svg viewBox="0 0 16 16" aria-hidden="true">
+            <path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </a>
+      </div>
+
+      <!-- Cards Layer (z 2) -->
+      <div id="cards-layer"></div>
+
+      <!-- Sky Panel (z 6) -->
+      <div id="sky-panel">
+        <div id="sky-plate"></div>
+        <video
+          id="sky-video"
+          muted
+          loop
+          playsinline
+          preload="auto"
+        ></video>
+        <div id="sky-camera-wrap">
+          <div id="sky-camera"></div>
+        </div>
+        <div class="sky-words" id="sky-words-tl">
+          <span class="s-word grey">Not</span>
+          <span class="s-word grey">just</span>
+          <span class="s-word">visuals</span>
+        </div>
+        <div class="sky-words" id="sky-words-br">
+          <span class="s-word grey">Real</span>
+          <span class="s-word">products</span>
+          <span class="s-word grey">that</span>
+          <span class="s-word">run</span>
+        </div>
+      </div>
+
+      <!-- Blackout Layer (z 8) -->
+      <div id="blackout"></div>
+    </div>
+  </section>
+
+  <!-- 3. Manifesto Section (950vh) -->
+  <section id="manifesto">
+    <div id="manifesto-stage">
+      <div id="manifesto-track">
+        <!-- 1. Intro block -->
+        <div class="m-intro" data-m-group>
+          <span class="m-label-pos" style="top: -0.58em; left: 0;">
+            <span class="m-label-small m-pop" data-rot="-6" style="background-color: #EFCEBE;">motion studio</span>
+          </span>
+          <span class="m-label-pos" style="top: -0.66em; left: 3.4em;">
+            <span class="m-label-small m-pop" data-rot="-4" style="background-color: #EBC9AE;">since the tide turned</span>
+          </span>
+          <span class="m-label-pos" style="bottom: -0.58em; left: 0.6em;">
+            <span class="m-label-small m-pop" data-rot="4" style="background-color: #BAD9E6;">coast to coast</span>
+          </span>
+          <div class="m-intro-row">
+            <span class="m-word grey" data-m-word>Designing</span>
+            <span class="m-word" data-m-word>motion</span>
+          </div>
+          <div class="m-intro-row">
+            <span class="m-word" data-m-word>that</span>
+            <span class="m-word" data-m-word>moves</span>
+            <span class="m-word grey" data-m-word>people.</span>
+          </div>
+        </div>
+
+        <!-- 2. Conch shell object, 1.25em wide, -12 deg -->
+        <span class="m-obj conch m-pop" data-rot="-12" style="width: 1.25em;"></span>
+
+        <!-- 3. "Crafting" -->
+        <span class="m-word grey" data-m-word>Crafting</span>
+
+        <!-- 4. Vertical stack: label "tidal" #DDAD95 (-8 deg, ink dot top-right) over small label "and immersive" #B0AEC6 (+6 deg) -->
+        <div class="m-stack">
+          <span class="m-label-big m-pop" data-rot="-8" style="background-color: #DDAD95;">
+            tidal
+            <span class="ink-dot"></span>
+          </span>
+          <span class="m-label-small m-pop" data-rot="6" style="background-color: #B0AEC6;">and immersive</span>
+        </div>
+
+        <!-- 5. "animation" "experiences." -->
+        <span class="m-word grey" data-m-word>animation</span>
+        <span class="m-word" data-m-word>experiences.</span>
+
+        <!-- 6. Sparkle (0.34em) + pearl 0.8em -->
+        <span class="m-sparkle m-pop" data-rot="0">
+          <svg viewBox="0 0 20 20" aria-hidden="true">
+            <path d="M10 0c.8 5.6 3.6 8.6 10 10-6.4 1.4-9.2 4.4-10 10-.8-5.6-3.6-8.6-10-10 6.4-1.4 9.2-4.4 10-10z" fill="#F4E3D3" />
+          </svg>
+        </span>
+        <span class="m-obj pearl m-pop" data-rot="0" style="width: 0.8em;"></span>
+
+        <!-- 7. "The" "ocean" "–" "is" "a" -->
+        <span class="m-word" data-m-word>The</span>
+        <span class="m-word" data-m-word>ocean</span>
+        <span class="m-word grey" data-m-word>–</span>
+        <span class="m-word grey" data-m-word>is</span>
+        <span class="m-word grey" data-m-word>a</span>
+
+        <!-- 8. Label "tidal" #EFCEBE (-8 deg), conch 1.05em (+10 deg), pearl .5em, sparkle, label "coastal" #B0AEC6 (+3 deg) -->
+        <span class="m-label-big m-pop" data-rot="-8" style="background-color: #EFCEBE;">tidal</span>
+        <span class="m-obj conch m-pop" data-rot="10" style="width: 1.05em;"></span>
+        <span class="m-obj pearl m-pop" data-rot="0" style="width: 0.5em;"></span>
+        <span class="m-sparkle m-pop" data-rot="0">
+          <svg viewBox="0 0 20 20" aria-hidden="true">
+            <path d="M10 0c.8 5.6 3.6 8.6 10 10-6.4 1.4-9.2 4.4-10 10-.8-5.6-3.6-8.6-10-10 6.4-1.4 9.2-4.4 10-10z" fill="#F4E3D3" />
+          </svg>
+        </span>
+        <span class="m-label-big m-pop" data-rot="3" style="background-color: #B0AEC6;">coastal</span>
+
+        <!-- 9. "and" "a", label "drift" #BAD9E6 (-10 deg), capsule 1.05em (-8 deg) -->
+        <span class="m-word grey" data-m-word>and</span>
+        <span class="m-word grey" data-m-word>a</span>
+        <span class="m-label-big m-pop" data-rot="-10" style="background-color: #BAD9E6;">drift</span>
+        <span class="m-obj capsule m-pop" data-rot="-8" style="width: 1.05em;"></span>
+
+        <!-- 10. "atelier" "that" "brings" "brands," "stories," "and" "experiences" "to" "life" "through" "art," "design," "and" "technology." + 30vw spacer -->
+        <span class="m-word" data-m-word>atelier</span>
+        <span class="m-word" data-m-word>that</span>
+        <span class="m-word" data-m-word>brings</span>
+        <span class="m-word" data-m-word>brands,</span>
+        <span class="m-word" data-m-word>stories,</span>
+        <span class="m-word grey" data-m-word>and</span>
+        <span class="m-word" data-m-word>experiences</span>
+        <span class="m-word grey" data-m-word>to</span>
+        <span class="m-word grey" data-m-word>life</span>
+        <span class="m-word grey" data-m-word>through</span>
+        <span class="m-word" data-m-word>art,</span>
+        <span class="m-word" data-m-word>design,</span>
+        <span class="m-word grey" data-m-word>and</span>
+        <span class="m-word" data-m-word>technology.</span>
+        <div class="m-spacer"></div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    (function () {
+      'use strict';
+
+      /* =====================================================================
+       * 1. ASSETS & CONSTANTS
+       * ===================================================================== */
+      const CF_PREFIX = 'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/';
+      function higgsUrl(filename, w) {
+        return (
+          'https://images.higgs.ai/?default=1&output=webp&url=' +
+          encodeURIComponent(CF_PREFIX + filename) +
+          '&w=' + w + '&q=85'
+        );
+      }
+
+      const GRIDS = {
+        A: higgsUrl('hf_20261118_061436_77e1a13d-60a0-4746-bf7b-53b2365609f5.png', 900),
+        B: higgsUrl('hf_20261118_061435_8a1828bc-a149-44ea-80fd-c4c33eef7407.png', 900),
+        C: higgsUrl('hf_20261118_061433_df51e37b-d8b8-40b1-9830-01ea6c20c83d.png', 900)
+      };
+
+      const SKY_VIDEO_URL = CF_PREFIX + 'hf_20261118_065029_a6ae2ebb-cd79-41fd-ae60-6b66fdda04ee.mp4';
+
+      const CARD_SPECS = [
+        { grid: 'B', pos: '100% 100%' }, // 0: B-BR (lavender dawn sea)
+        { grid: 'A', pos: '100% 0%' },   // 1: A-TR (shell on lavender)
+        { grid: 'A', pos: '0% 100%' },   // 2: A-BL (harbour)
+        { grid: 'A', pos: '100% 100%' }, // 3: A-BR (beach surf)
+        { grid: 'B', pos: '0% 0%' },     // 4: B-TL (pink lighthouse)
+        { grid: 'B', pos: '100% 0%' },   // 5: B-TR (crashing wave)
+        { grid: 'C', pos: '100% 0%' },   // 6: C-TR (sailboat)
+        { grid: 'C', pos: '0% 0%' },     // 7: C-TL (shell on sand)
+        { grid: 'B', pos: '0% 100%' },   // 8: B-BL (surfer barrel)
+        { grid: 'A', pos: '0% 0%' },     // 9: A-TL (sunset lighthouse)
+        { grid: 'C', pos: '0% 100%' },   // 10: C-BL (slate sea)
+        { grid: 'C', pos: '100% 100%' }  // 11: C-BR (shallows)
+      ];
+
+      const PIXEL_PALETTE = {
+        k: '#1F2430',
+        b: '#7DA3BB',
+        w: '#FFFFFF',
+        p: '#DDAD95'
+      };
+
+      const PIXEL_ICONS = [
+        // 0: plane
+        ['........k','......kkb','....kkwkb','..kkwwkb.','kkwwwkbb.','..kkkbb..','....kb...','....k....','.........'],
+        // 1: shell
+        ['...kkk...','..kbwbk..','.kbwbwbk.','kbwbwbwbk','kwbwbwbwk','.kbwbwbk.','..kbbbk..','...kkk...','.........'],
+        // 2: boat
+        ['....k....','....kb...','....kbb..','...wkbbb.','..wwkbbb.','....k....','kkkkkkkkk','.kpppppk.','..kkkkk..'],
+        // 3: lighthouse
+        ['...kkk...','..kbbbk..','...kwk...','...kbk...','...kwk...','...kbk...','..kwwwk..','..kbbbk..','.kkkkkkk.'],
+        // 4: fish
+        ['.........','...kkk..k','..kbbbkkk','.kbwbbbbk','kbbbbbkkk','.kbbbbk.k','..kkkk...','.........','.........'],
+        // 5: wave
+        ['.........','...kkk...','..kbbbk..','.kbwwbbk.','kbw..kbbk','kb....kbk','bbbbbbbbb','kkkkkkkkk','.........'],
+        // 6: sun
+        ['....p....','.p..k..p.','...kpk...','..kpppk..','pkpppppkp','..kpppk..','...kpk...','.p..k..p.','....p....']
+      ];
+
+      const HEADLINE_TEXT = 'Tides in Motion';
+
+      /* =====================================================================
+       * 2. MATH & EASING HELPERS
+       * ===================================================================== */
+      function clamp(v, min, max) {
+        return v < min ? min : v > max ? max : v;
+      }
+
+      function lerp(a, b, t) {
+        return a + (b - a) * t;
+      }
+
+      function easeOutCubic(t) {
+        const u = clamp(t, 0, 1);
+        return 1 - Math.pow(1 - u, 3);
+      }
+
+      function easeInOutCubic(t) {
+        const u = clamp(t, 0, 1);
+        return u < 0.5 ? 4 * u * u * u : 1 - Math.pow(-2 * u + 2, 3) / 2;
+      }
+
+      function backOut(t, s = 1.15) {
+        const u = clamp(t, 0, 1) - 1;
+        return u * u * ((s + 1) * u + s) + 1;
+      }
+
+      function cubicBezier(x1, y1, x2, y2) {
+        return function (x) {
+          if (x <= 0) return 0;
+          if (x >= 1) return 1;
+          let t = x;
+          for (let i = 0; i < 6; i++) {
+            const cx = 3 * x1 * t * (1 - t) * (1 - t) + 3 * x2 * t * t * (1 - t) + t * t * t - x;
+            const dx = 3 * x1 * (1 - t) * (1 - 3 * t) + 3 * x2 * t * (2 - 3 * t) + 3 * t * t;
+            if (Math.abs(dx) < 1e-6) break;
+            t = clamp(t - cx / dx, 0, 1);
+          }
+          return 3 * y1 * t * (1 - t) * (1 - t) + 3 * y2 * t * t * (1 - t) + t * t * t;
+        };
+      }
+
+      const eGlide = cubicBezier(0.25, 0.75, 0.2, 1);
+
+      function catmullRom(p0, p1, p2, p3, t) {
+        const t2 = t * t;
+        const t3 = t2 * t;
+        return 0.5 * (
+          (2 * p1) +
+          (-p0 + p2) * t +
+          (2 * p0 - 5 * p1 + 4 * p2 - p3) * t2 +
+          (-p0 + 3 * p1 - 3 * p2 + p3) * t3
+        );
+      }
+
+      /* =====================================================================
+       * 3. DOM BUILDERS
+       * ===================================================================== */
+      const rootEl = document.documentElement;
+      const bodyEl = document.body;
+      const navLogo = document.getElementById('nav-logo');
+      const navLinks = Array.from(document.querySelectorAll('#nav-links a'));
+      const navCta = document.getElementById('nav-cta');
+      const storyEl = document.getElementById('story');
+      const heroEl = document.getElementById('hero');
+      const heroHeadlineEl = document.getElementById('hero-headline');
+      const wordRowEl = document.getElementById('word-row');
+      const iconLayerEl = document.getElementById('icon-layer');
+      const planeEl = document.getElementById('paper-plane');
+
+      const processBlockEl = document.getElementById('process-block');
+      const processWords = Array.from(document.querySelectorAll('#process-block .p-word'));
+      const processSubline = document.getElementById('process-subline');
+      const processBtn = document.getElementById('process-btn');
+
+      const cardsLayerEl = document.getElementById('cards-layer');
+      const skyPanelEl = document.getElementById('sky-panel');
+      const skyPlateEl = document.getElementById('sky-plate');
+      const skyVideoEl = document.getElementById('sky-video');
+      const skyCameraEl = document.getElementById('sky-camera');
+      const skyWords = Array.from(document.querySelectorAll('#sky-panel .s-word'));
+      const blackoutEl = document.getElementById('blackout');
+
+      const manifestoEl = document.getElementById('manifesto');
+      const manifestoTrackEl = document.getElementById('manifesto-track');
+
+      // Only activate static reduced-motion layout when explicitly requested via ?reducedMotion=1
+      // (since Windows OS "Animation effects: Off" sets prefers-reduced-motion: reduce by default)
+      const urlParams = new URLSearchParams(window.location.search);
+      let prefersReducedMotion = urlParams.get('reducedMotion') === '1';
+      if (prefersReducedMotion) {
+        bodyEl.classList.add('reduced-motion');
+      }
+
+      // Build Hero Headline Characters
+      const charSpans = [];
+      for (let i = 0; i < HEADLINE_TEXT.length; i++) {
+        const span = document.createElement('span');
+        span.className = 'hero-char';
+        span.textContent = HEADLINE_TEXT[i] === ' ' ? '\u00A0' : HEADLINE_TEXT[i];
+        wordRowEl.appendChild(span);
+        charSpans.push(span);
+      }
+
+      // Build 7 Pixel Icons
+      const iconEls = [];
+      for (let idx = 0; idx < PIXEL_ICONS.length; idx++) {
+        const wrap = document.createElement('div');
+        wrap.className = 'pixel-icon';
+        const svgNS = 'http://www.w3.org/2000/svg';
+        const svg = document.createElementNS(svgNS, 'svg');
+        svg.setAttribute('viewBox', '0 0 9 9');
+        const rows = PIXEL_ICONS[idx];
+        for (let r = 0; r < 9; r++) {
+          for (let c = 0; c < 9; c++) {
+            const ch = rows[r][c];
+            if (ch !== '.' && PIXEL_PALETTE[ch]) {
+              const rect = document.createElementNS(svgNS, 'rect');
+              rect.setAttribute('x', String(c));
+              rect.setAttribute('y', String(r));
+              rect.setAttribute('width', '1.02');
+              rect.setAttribute('height', '1.02');
+              rect.setAttribute('fill', PIXEL_PALETTE[ch]);
+              svg.appendChild(rect);
+            }
+          }
+        }
+        wrap.appendChild(svg);
+        iconLayerEl.appendChild(wrap);
+        iconEls.push(wrap);
+      }
+
+      // Build 12 Art Cards
+      const cardEls = [];
+      const cardDisp = [];
+      const cardRiseStart = { 5: 0.53, 2: 0.60, 0: 0.63, 1: 0.70, 3: 0.80, 4: 0.86 };
+
+      for (let i = 0; i < 12; i++) {
+        const div = document.createElement('div');
+        div.className = 'art-card';
+        const spec = CARD_SPECS[i];
+        div.style.backgroundImage = 'url("' + GRIDS[spec.grid] + '")';
+        div.style.backgroundPosition = spec.pos;
+        cardsLayerEl.appendChild(div);
+        cardEls.push(div);
+        cardDisp.push({ x: 0, y: 0, rot: 0, scale: 1, opacity: 0, initialized: false });
+      }
+
+      // Split Manifesto Words into Characters
+      const manifestoWordItems = [];
+      document.querySelectorAll('[data-m-word]').forEach((wordEl) => {
+        const text = wordEl.textContent || '';
+        wordEl.textContent = '';
+        const chars = [];
+        for (let i = 0; i < text.length; i++) {
+          const chSpan = document.createElement('span');
+          chSpan.className = 'm-char';
+          chSpan.textContent = text[i];
+          wordEl.appendChild(chSpan);
+          chars.push(chSpan);
+        }
+        manifestoWordItems.push({
+          el: wordEl,
+          chars: chars,
+          revealed: false,
+          revealTime: 0,
+          leftEdge: 0
+        });
+      });
+
+      const manifestoPopItems = [];
+      document.querySelectorAll('.m-pop').forEach((popEl) => {
+        const rot = parseFloat(popEl.getAttribute('data-rot') || '0');
+        manifestoPopItems.push({
+          el: popEl,
+          restRot: rot,
+          revealed: false,
+          revealTime: 0,
+          leftEdge: 0
+        });
+      });
+
+      // Setup Sky Video (unless reduced motion)
+      let videoPlaying = false;
+      if (!prefersReducedMotion) {
+        skyVideoEl.src = SKY_VIDEO_URL;
+        skyVideoEl.playbackRate = 0.6;
+        skyVideoEl.addEventListener('playing', function () {
+          skyVideoEl.classList.add('playing');
+        });
+      }
+
+      /* =====================================================================
+       * 4. SCALING & LAYOUT MEASUREMENTS
+       * ===================================================================== */
+      let W = window.innerWidth;
+      let H = window.innerHeight;
+      let isMobile = false;
+      let u = 1;
+      let n = 1;
+      let hfs = 106;
+      let ic = 65.7;
+      let pfs = 48;
+      let sfs = 60;
+      let mfs = 72;
+      let camw = 273;
+      let cw = 218;
+
+      let storyTop = 0;
+      let storyHeight = 1;
+      let manifestoTop = 0;
+      let manifestoHeight = 1;
+      let trackWidth = 1;
+
+      // Morph Layout Cache
+      let charWidths = [];
+      let morphStates = []; // k = 0..15
+
+      function computeMorphStates() {
+        charWidths = charSpans.map((sp) => sp.getBoundingClientRect().width || (hfs * 0.3));
+        const iconGap = 0.2 * ic;
+        const letterIconGap = 1.6 * iconGap;
+
+        let nonSpaceTotal = 0;
+        for (let i = 0; i < HEADLINE_TEXT.length; i++) {
+          if (HEADLINE_TEXT[i] !== ' ') nonSpaceTotal++;
+        }
+
+        morphStates = [];
+        let nonSpaceRevealed = 0;
+        for (let k = 0; k <= 15; k++) {
+          if (k > 0 && HEADLINE_TEXT[k - 1] !== ' ') {
+            nonSpaceRevealed++;
+          }
+          const lettersLeft = nonSpaceTotal - nonSpaceRevealed;
+          const m = Math.ceil((7 * lettersLeft) / 13);
+
+          let wChars = 0;
+          const charX = [];
+          for (let c = 0; c < 15; c++) {
+            charX.push(wChars);
+            if (c < k) wChars += charWidths[c];
+          }
+
+          const wIcons = m > 0 ? m * ic + (m - 1) * iconGap : 0;
+          const gap = k > 0 && m > 0 ? letterIconGap : 0;
+          const wTotal = wChars + gap + wIcons;
+          const leftEdge = -wTotal / 2;
+
+          const finalCharX = charX.map((cx) => leftEdge + cx);
+          const firstIconIdx = 7 - m;
+          const finalIconX = [];
+          for (let idx = 0; idx < 7; idx++) {
+            const relIdx = idx - firstIconIdx;
+            finalIconX.push(leftEdge + wChars + gap + relIdx * (ic + iconGap));
+          }
+
+          morphStates.push({
+            k: k,
+            m: m,
+            firstIconIdx: firstIconIdx,
+            charX: finalCharX,
+            iconX: finalIconX,
+            leftEdge: leftEdge,
+            wChars: wChars
+          });
+        }
+      }
+
+      function measureManifestoOffsets() {
+        const savedTransform = manifestoTrackEl.style.transform;
+        manifestoTrackEl.style.transform = 'translate3d(0px, -50%, 0)';
+        trackWidth = manifestoTrackEl.scrollWidth;
+        const trackRect = manifestoTrackEl.getBoundingClientRect();
+
+        manifestoWordItems.forEach((item) => {
+          const r = item.el.getBoundingClientRect();
+          item.leftEdge = r.left - trackRect.left;
+        });
+
+        manifestoPopItems.forEach((item) => {
+          const r = item.el.getBoundingClientRect();
+          item.leftEdge = r.left - trackRect.left;
+        });
+
+        manifestoTrackEl.style.transform = savedTransform;
+      }
+
+      function updateScaling() {
+        W = window.innerWidth;
+        H = window.innerHeight;
+        isMobile = W < 820 && W < H * 1.1;
+
+        bodyEl.classList.toggle('is-mobile', isMobile);
+
+        u = Math.min(W / 1440, H / 800);
+        n = isMobile ? Math.min(1, W / 560) : clamp(W / 1440, 0.62, 1.25);
+        hfs = isMobile ? Math.min(W * 0.12, H * 0.09) : Math.min(W * 0.074, H * 0.135);
+        ic = hfs * 0.62;
+        pfs = isMobile ? Math.min(W * 0.085, 40) : Math.min(W * 0.0335, H * 0.062);
+        sfs = isMobile ? Math.min(W * 0.09, 44) : Math.min(W * 0.042, H * 0.078);
+        mfs = isMobile ? Math.min(W * 0.11, H * 0.075) : Math.min(W * 0.05, H * 0.1);
+        camw = isMobile ? Math.min(W * 0.62, H * 0.34) : Math.min(W * 0.19, H * 0.36);
+        cw = isMobile ? Math.min(W * 0.30, H * 0.2) : Math.min(W / 1440, H / 780) * 218;
+
+        rootEl.style.setProperty('--u', u + 'px');
+        rootEl.style.setProperty('--n', n + 'px');
+        rootEl.style.setProperty('--hfs', hfs + 'px');
+        rootEl.style.setProperty('--ic', ic + 'px');
+        rootEl.style.setProperty('--pfs', pfs + 'px');
+        rootEl.style.setProperty('--sfs', sfs + 'px');
+        rootEl.style.setProperty('--mfs', mfs + 'px');
+        rootEl.style.setProperty('--camw', camw + 'px');
+        rootEl.style.setProperty('--cw', String(cw));
+        cardsLayerEl.style.setProperty('--cw', String(cw));
+
+        storyTop = storyEl.offsetTop;
+        storyHeight = storyEl.offsetHeight;
+        manifestoTop = manifestoEl.offsetTop;
+        manifestoHeight = manifestoEl.offsetHeight;
+
+        computeMorphStates();
+        measureManifestoOffsets();
+      }
+
+      window.addEventListener('resize', updateScaling);
+      if (document.fonts && document.fonts.ready) {
+        document.fonts.ready.then(updateScaling);
+      }
+
+      /* =====================================================================
+       * 5. SMOOTH SCROLLING & ANCHOR NAVIGATION
+       * ===================================================================== */
+      let sy = window.scrollY || 0;
+      let ty = sy;
+      let lastWheelTime = 0;
+      const hasFinePointer = window.matchMedia('(pointer: fine)').matches;
+
+      window.addEventListener(
+        'wheel',
+        function (e) {
+          if (prefersReducedMotion || !hasFinePointer) return;
+          e.preventDefault();
+          const dy = e.deltaMode === 1 ? e.deltaY * 32 : e.deltaY;
+          const maxScroll = Math.max(0, document.documentElement.scrollHeight - H);
+          ty = clamp(ty + dy * 0.75, 0, maxScroll);
+          window.scrollTo(0, ty);
+          lastWheelTime = performance.now();
+        },
+        { passive: false }
+      );
+
+      // Anchor click handler
+      document.querySelectorAll('[data-target]').forEach((link) => {
+        link.addEventListener('click', function (e) {
+          e.preventDefault();
+          const targetName = link.getAttribute('data-target');
+          let destY = 0;
+          const sSpan = Math.max(1, storyHeight - H);
+          if (targetName === 'top') {
+            destY = 0;
+          } else if (targetName === 'process') {
+            destY = storyTop + sSpan * 0.20;
+          } else if (targetName === 'product') {
+            destY = storyTop + sSpan * 0.74;
+          } else if (targetName === 'manifesto') {
+            destY = manifestoTop;
+          }
+          ty = destY;
+          window.scrollTo(0, destY);
+          lastWheelTime = performance.now();
+        });
+      });
+
+      /* =====================================================================
+       * 6. POSE GENERATORS FOR THE 12 CARDS
+       * ===================================================================== */
+      function stepAngleRad(R) {
+        const arg = clamp((1.05 * cw) / (2 * R), -0.999, 0.999);
+        return 2 * Math.asin(arg);
+      }
+
+      function getFanPose(i) {
+        if (i >= 6) {
+          return { x: W * 0.5, y: H * 1.4, rot: 0, scale: 1, opacity: 0 };
+        }
+        const R = isMobile ? W * 1.35 : (1250 * W) / 1440;
+        const step = stepAngleRad(R);
+        const theta = (i - 2.5) * step;
+        const thetaDeg = (theta * 180) / Math.PI;
+        const cx = isMobile ? W * 0.5 : W * 0.55;
+        const cy = H * 0.86 + R;
+        const x = isMobile
+          ? cx + R * Math.sin(theta)
+          : cx + R * Math.sin(theta) - W * 0.02;
+        const y = isMobile
+          ? cy - R * Math.cos(theta) + cw * 0.2
+          : cy - R * Math.cos(theta);
+        return { x: x, y: y, rot: thetaDeg, scale: 1, opacity: 1 };
+      }
+
+      const DESKTOP_SCATTER = [
+        [0.08, 0.46, -20, 1],
+        [0.20, 0.86, -12, 1],
+        [0.80, 0.84, 14, 1],
+        [0.38, 1.04, -8, 1],
+        [0.92, 0.42, 16, 1],
+        [0.62, 1.04, 9, 1]
+      ];
+
+      const MOBILE_SCATTER = [
+        [0.06, 0.60, -20, 1],
+        [0.45, 0.66, 12, 1],
+        [0.94, 0.60, 16, 1],
+        [0.22, 0.93, -14, 1],
+        [0.72, 0.96, 9, 1],
+        [0.50, 1.30, 0, 0]
+      ];
+
+      function getScatterPose(i) {
+        if (i >= 6) {
+          return { x: W * 0.5, y: H * 1.4, rot: 0, scale: 1, opacity: 0 };
+        }
+        const table = isMobile ? MOBILE_SCATTER : DESKTOP_SCATTER;
+        const row = table[i];
+        let yf = row[1];
+        if (H < 500 && yf < 0.1) {
+          yf += 0.08;
+        }
+        let yPx = yf * H;
+        const minSafeY = 86 * n + cw * 0.72;
+        if (yPx < minSafeY && yf < 0.9) {
+          yPx = minSafeY;
+        }
+        return { x: row[0] * W, y: yPx, rot: row[2], scale: 1, opacity: row[3] };
+      }
+
+      function getPilePose(i) {
+        const x = W * 0.5 + ((i % 3) - 1) * cw * 0.08;
+        const y = H * 0.62 + (((i * 7) % 5) - 2) * cw * 0.04;
+        const sign = i % 2 === 0 ? 1 : -1;
+        const rot = sign * (4 + i * 1.3);
+        return { x: x, y: y, rot: rot, scale: 1, opacity: 1 };
+      }
+
+      function getWheelPose(i, wheelProgress) {
+        const rot = -3 * wheelProgress;
+        const modSlot = ((((i + rot) % 12) + 12) % 12) - 5.5;
+        const R = isMobile ? W * 1.2 : (900 * W) / 1440;
+        const step = stepAngleRad(R);
+        const angleRad = modSlot * step;
+        const angleDeg = (angleRad * 180) / Math.PI;
+        const cx = W * 0.5;
+        const cy = (isMobile ? H * 0.76 : H * 0.82) + R;
+        const x = cx + R * Math.sin(angleRad);
+        const y = cy - R * Math.cos(angleRad);
+        const visible = Math.abs(angleDeg) < 62;
+        return {
+          x: x,
+          y: y,
+          rot: angleDeg,
+          scale: 1,
+          opacity: visible ? 1 : 0,
+          slot: modSlot
+        };
+      }
+
+      function blendPose(a, b, t) {
+        return {
+          x: lerp(a.x, b.x, t),
+          y: lerp(a.y, b.y, t),
+          rot: lerp(a.rot, b.rot, t),
+          scale: lerp(a.scale, b.scale, t),
+          opacity: lerp(a.opacity, b.opacity, t)
+        };
+      }
+
+      function computeTargetCardPose(i, p, tSec) {
+        const fan = getFanPose(i);
+
+        // During initial load rise (when at top of page)
+        if (p < 0.004 && !prefersReducedMotion) {
+          if (i < 6) {
+            const t0 = cardRiseStart[i];
+            const uRise = clamp((tSec - t0) / 0.7, 0, 1);
+            if (uRise <= 0) {
+              return { x: fan.x, y: H + cw * 1.2, rot: fan.rot + 8, scale: 1, opacity: 0, direct: true };
+            }
+            const b = backOut(uRise, 1.15);
+            return {
+              x: fan.x,
+              y: lerp(H + cw * 1.2, fan.y, b),
+              rot: lerp(fan.rot + 8, fan.rot, easeOutCubic(uRise)),
+              scale: 1,
+              opacity: 1,
+              direct: uRise < 1
+            };
+          }
+          return { x: fan.x, y: fan.y, rot: fan.rot, scale: 1, opacity: 0, direct: true };
+        }
+
+        // Phase 1: Fan -> Scatter (.004 -> .085)
+        if (p <= 0.085) {
+          const scatter = getScatterPose(i);
+          const u1 = easeInOutCubic((p - 0.004) / (0.085 - 0.004));
+          return blendPose(fan, scatter, u1);
+        }
+
+        // Between Scatter and Pile (.085 -> .21)
+        if (p <= 0.21) {
+          return getScatterPose(i);
+        }
+
+        // Phase 2: Scatter -> Pile (.21 -> .31)
+        if (p <= 0.31) {
+          const scatter = getScatterPose(i);
+          const pile = getPilePose(i);
+          const u2 = easeInOutCubic((p - 0.21) / (0.31 - 0.21));
+          const posed = blendPose(scatter, pile, u2);
+          if (i >= 6) {
+            posed.opacity = easeInOutCubic((p - 0.22) / 0.08);
+          }
+          return posed;
+        }
+
+        // Phase 3: Pile -> Wheel (.31 -> .41)
+        if (p <= 0.41) {
+          const pile = getPilePose(i);
+          const wheel0 = getWheelPose(i, 0);
+          const u3 = eGlide((p - 0.31) / (0.41 - 0.31));
+          return blendPose(pile, wheel0, u3);
+        }
+
+        // Phase 4: Wheel turns 3 slots (.41 -> .57) and rests (.57+)
+        const wp = easeInOutCubic(clamp((p - 0.41) / (0.57 - 0.41), 0, 1));
+        return getWheelPose(i, wp);
+      }
+
+      /* =====================================================================
+       * 7. HERO INTRO ANIMATION (PAPER PLANE & ICON-TO-LETTER MORPH)
+       * ===================================================================== */
+      const PLANE_KEYFRAMES = [
+        [0.33, -3, 73],
+        [0.45, 4, 71],
+        [0.60, 13, 65],
+        [0.70, 22, 55],
+        [0.80, 31, 44],
+        [0.87, 32.5, 47.5],
+        [0.93, 26, 48],
+        [1.00, 21.5, 45],
+        [1.07, 22.5, 51.5],
+        [1.15, 27, 52]
+      ];
+
+      function evalPlanePoint(tSec, firstIconScreenX, firstIconScreenY) {
+        const pts = PLANE_KEYFRAMES.map((kf) => ({
+          t: kf[0],
+          x: (kf[1] / 100) * W,
+          y: (kf[2] / 100) * H
+        }));
+        pts.push({ t: 1.27, x: firstIconScreenX, y: firstIconScreenY });
+
+        const N = pts.length;
+        if (tSec <= pts[0].t) return pts[0];
+        if (tSec >= pts[N - 1].t) return pts[N - 1];
+
+        let seg = 0;
+        for (let i = 0; i < N - 1; i++) {
+          if (tSec >= pts[i].t && tSec <= pts[i + 1].t) {
+            seg = i;
+            break;
+          }
+        }
+
+        const p0 = pts[Math.max(0, seg - 1)];
+        const p1 = pts[seg];
+        const p2 = pts[seg + 1];
+        const p3 = pts[Math.min(N - 1, seg + 2)];
+        const localU = clamp((tSec - p1.t) / (p2.t - p1.t), 0, 1);
+
+        return {
+          x: catmullRom(p0.x, p1.x, p2.x, p3.x, localU),
+          y: catmullRom(p0.y, p1.y, p2.y, p3.y, localU)
+        };
+      }
+
+      let lastPlaneAngle = -20;
+
+      function updateHeroIntro(tSec) {
+        if (prefersReducedMotion) {
+          navLogo.style.opacity = '1';
+          navLinks.forEach((a) => {
+            a.style.opacity = '1';
+            a.style.transform = 'translateY(0px)';
+          });
+          navCta.style.clipPath = 'inset(0 0 0 0% round calc(12 * var(--n)))';
+          planeEl.style.opacity = '0';
+          iconEls.forEach((icEl) => (icEl.style.opacity = '0'));
+          const st15 = morphStates[15];
+          if (st15) {
+            charSpans.forEach((sp, c) => {
+              sp.style.opacity = '1';
+              sp.style.clipPath = 'none';
+              sp.style.transform = 'translate3d(' + st15.charX[c].toFixed(2) + 'px, 0, 0)';
+            });
+          }
+          return;
+        }
+
+        // 1. Logo (0.15 - 0.35)
+        const logoP = easeOutCubic((tSec - 0.15) / (0.35 - 0.15));
+        navLogo.style.opacity = logoP.toFixed(3);
+
+        // 2. Nav links (0.20 + i*0.03 -> 0.42 + i*0.03)
+        for (let i = 0; i < navLinks.length; i++) {
+          const t0 = 0.20 + i * 0.03;
+          const lp = easeOutCubic((tSec - t0) / 0.22);
+          navLinks[i].style.opacity = lp.toFixed(3);
+          navLinks[i].style.transform = 'translateY(' + ((1 - lp) * 6).toFixed(2) + 'px)';
+        }
+
+        // 3. CTA button wipe (0.23 - 0.42)
+        const ctaP = easeOutCubic((tSec - 0.23) / (0.42 - 0.23));
+        const leftInset = ((1 - ctaP) * 100).toFixed(2);
+        navCta.style.clipPath = 'inset(0 0 0 ' + leftInset + '% round calc(12 * var(--n)))';
+
+        if (!morphStates.length) return;
+        const st0 = morphStates[0];
+        const firstIconCenterX = W * 0.5 + st0.iconX[0] + ic * 0.5;
+        const firstIconCenterY = H * 0.41;
+
+        // 4. Paper plane flight (0.33 - 1.33)
+        if (tSec < 0.33 || tSec > 1.34) {
+          planeEl.style.opacity = '0';
+        } else if (tSec <= 1.27) {
+          const ptA = evalPlanePoint(tSec, firstIconCenterX, firstIconCenterY);
+          const ptB = evalPlanePoint(Math.min(1.27, tSec + 0.008), firstIconCenterX, firstIconCenterY);
+          const dx = ptB.x - ptA.x;
+          const dy = ptB.y - ptA.y;
+          if (Math.hypot(dx, dy) > 0.05) {
+            lastPlaneAngle = (Math.atan2(dy, dx) * 180) / Math.PI + 18;
+          }
+          const fadeIn = clamp((tSec - 0.33) / 0.06, 0, 1);
+          planeEl.style.opacity = fadeIn.toFixed(3);
+          planeEl.style.transform =
+            'translate3d(' + ptA.x.toFixed(2) + 'px, ' + ptA.y.toFixed(2) + 'px, 0) rotate(' +
+            lastPlaneAngle.toFixed(2) + 'deg) scale(1)';
+        } else {
+          const shrinkP = clamp((tSec - 1.27) / (1.33 - 1.27), 0, 1);
+          const sc = lerp(1, 0.6, shrinkP);
+          const op = 1 - shrinkP;
+          planeEl.style.opacity = op.toFixed(3);
+          planeEl.style.transform =
+            'translate3d(' + firstIconCenterX.toFixed(2) + 'px, ' + firstIconCenterY.toFixed(2) + 'px, 0) rotate(' +
+            lastPlaneAngle.toFixed(2) + 'deg) scale(' + sc.toFixed(3) + ')';
+        }
+
+        // 5. Pixel icons & Icon-to-letter morph (1.27 -> 5.20)
+        if (tSec < 1.9) {
+          for (let c = 0; c < 15; c++) {
+            charSpans[c].style.opacity = '0';
+          }
+          for (let idx = 0; idx < 7; idx++) {
+            const x = st0.iconX[idx];
+            if (idx === 0) {
+              if (tSec < 1.27) {
+                iconEls[0].style.opacity = '0';
+              } else {
+                const p0 = clamp((tSec - 1.27) / 0.12, 0, 1);
+                const s0 = backOut((tSec - 1.27) / 0.26, 1.15);
+                iconEls[0].style.opacity = p0.toFixed(3);
+                iconEls[0].style.filter = 'none';
+                iconEls[0].style.transform = 'translate3d(' + x.toFixed(2) + 'px, 0, 0) scale(' + s0.toFixed(3) + ')';
+              }
+            } else {
+              const j = idx - 1;
+              const tStart = 1.27 + 0.03 + j * 0.07;
+              if (tSec < tStart) {
+                iconEls[idx].style.opacity = '0';
+              } else {
+                const op = clamp((tSec - tStart) / 0.12, 0, 1);
+                const sc = backOut((tSec - tStart) / 0.32, 1.15);
+                iconEls[idx].style.opacity = op.toFixed(3);
+                iconEls[idx].style.filter = 'none';
+                iconEls[idx].style.transform = 'translate3d(' + x.toFixed(2) + 'px, 0, 0) scale(' + sc.toFixed(3) + ')';
+              }
+            }
+          }
+        } else {
+          const morphElapsed = tSec - 1.9;
+          const stepIdx = clamp(Math.floor(morphElapsed / 0.22), 0, 14);
+          const stepU = clamp((morphElapsed - stepIdx * 0.22) / 0.22, 0, 1);
+          const glideU = eGlide(stepU);
+
+          const stA = morphStates[stepIdx];
+          const stB = morphStates[stepIdx + 1];
+
+          for (let c = 0; c < 15; c++) {
+            const sp = charSpans[c];
+            const cx = lerp(stA.charX[c], stB.charX[c], glideU);
+            sp.style.transform = 'translate3d(' + cx.toFixed(2) + 'px, 0, 0)';
+
+            if (c < stepIdx) {
+              sp.style.opacity = '1';
+              sp.style.clipPath = 'none';
+            } else if (c === stepIdx) {
+              if (stepU < 0.32) {
+                sp.style.opacity = '0';
+              } else if (stepU <= 0.90) {
+                const wipe = (stepU - 0.32) / (0.90 - 0.32);
+                const rightClip = ((1 - wipe) * 100).toFixed(2);
+                sp.style.opacity = '1';
+                sp.style.clipPath = 'inset(-20% ' + rightClip + '% -20% 0)';
+              } else {
+                sp.style.opacity = '1';
+                sp.style.clipPath = 'none';
+              }
+            } else {
+              sp.style.opacity = '0';
+            }
+          }
+
+          const consumedStart = stA.firstIconIdx;
+          const remainingStart = stB.firstIconIdx;
+
+          for (let idx = 0; idx < 7; idx++) {
+            const icEl = iconEls[idx];
+            if (idx < consumedStart) {
+              icEl.style.opacity = '0';
+            } else if (idx >= remainingStart) {
+              const ix = lerp(stA.iconX[idx], stB.iconX[idx], glideU);
+              icEl.style.opacity = '1';
+              icEl.style.filter = 'none';
+              icEl.style.transform = 'translate3d(' + ix.toFixed(2) + 'px, 0, 0) scale(1)';
+            } else {
+              const ix = lerp(stA.iconX[idx], stB.leftEdge + stB.wChars, glideU);
+              let scX = 1;
+              let scY = 1;
+              let rot = 0;
+              let op = 1;
+              let br = 1;
+              if (stepU <= 0.45) {
+                const p1 = stepU / 0.45;
+                scX = lerp(1, 1.25, p1);
+                scY = lerp(1, 0.16, p1);
+                rot = lerp(0, -28, p1);
+                op = 1;
+                br = lerp(1, 0, p1);
+              } else {
+                const p2 = (stepU - 0.45) / 0.55;
+                scX = 1.25;
+                scY = 0.16;
+                rot = lerp(-28, -90, p2);
+                op = lerp(1, 0, p2);
+                br = 0;
+              }
+              icEl.style.opacity = op.toFixed(3);
+              icEl.style.filter = 'brightness(' + br.toFixed(3) + ')';
+              icEl.style.transform =
+                'translate3d(' + ix.toFixed(2) + 'px, 0, 0) rotate(' + rot.toFixed(2) + 'deg) scale(' +
+                scX.toFixed(3) + ', ' + scY.toFixed(3) + ')';
+            }
+          }
+        }
+      }
+
+      /* =====================================================================
+       * 8. MAIN RAF LOOP (SCROLL CHOREOGRAPHY & MANIFESTO)
+       * ===================================================================== */
+      const bootTime = performance.now();
+      let lastFrameTime = bootTime;
+      let processRevealTime = null;
+      let skyWordsRevealTime = null;
+      let skyDispProgress = 0;
+
+      function updateActiveNavLink(p, inManifesto) {
+        let activeTarget = 'top';
+        if (inManifesto) {
+          activeTarget = 'manifesto';
+        } else if (p >= 0.62) {
+          activeTarget = 'product';
+        } else if (p >= 0.08) {
+          activeTarget = 'process';
+        }
+        let marked = false;
+        navLinks.forEach((a) => {
+          const isMatch = !marked && a.getAttribute('data-target') === activeTarget;
+          if (isMatch) marked = true;
+          a.classList.toggle('current', isMatch);
+        });
+      }
+
+      function tick(now) {
+        const dt = clamp(now - lastFrameTime, 1, 64);
+        lastFrameTime = now;
+        const tSec = (now - bootTime) / 1000;
+
+        // 1. Update smoothed scroll sy
+        if (prefersReducedMotion || !hasFinePointer) {
+          sy = window.scrollY || 0;
+          ty = sy;
+        } else {
+          if (now - lastWheelTime > 250) {
+            ty = window.scrollY || 0;
+          }
+          const kScroll = 1 - Math.pow(1 - 0.06, dt / 16.67);
+          sy += (ty - sy) * kScroll;
+          if (Math.abs(ty - sy) < 0.15) sy = ty;
+        }
+
+        // 2. Hero Intro & Hero Scroll-away
+        updateHeroIntro(tSec);
+
+        const realScrollY = window.scrollY || 0;
+        if (!prefersReducedMotion) {
+          heroEl.style.transform = 'translate3d(0, ' + (realScrollY - sy).toFixed(2) + 'px, 0)';
+        }
+
+        const storySpan = Math.max(1, storyHeight - H);
+        const p = prefersReducedMotion ? 0 : clamp((sy - storyTop) / storySpan, 0, 1);
+
+        // Hero headline fade before reaching nav
+        const navHeight = 86 * n;
+        const headlineTop = 0.41 * H - 0.5 * hfs - sy;
+        const startTop = navHeight + 1.9 * hfs;
+        const endTop = navHeight + 0.55 * hfs;
+        const headlineOpacity = prefersReducedMotion
+          ? 1
+          : clamp((headlineTop - endTop) / (startTop - endTop), 0, 1);
+        heroHeadlineEl.style.opacity = headlineOpacity.toFixed(3);
+
+        // 3. Process Block (.05 -> .075 fade, > .078 word reveal)
+        if (p < 0.05) {
+          processBlockEl.style.opacity = '0';
+          processBlockEl.style.pointerEvents = 'none';
+          processRevealTime = null;
+          processWords.forEach((w) => {
+            w.style.opacity = '0';
+            w.style.transform = 'translateY(0.35em)';
+            w.style.filter = 'blur(6px)';
+          });
+          processSubline.style.opacity = '0';
+          processSubline.style.transform = 'translateY(8px)';
+          processBtn.style.opacity = '0';
+          processBtn.style.transform = 'translateY(8px)';
+        } else {
+          const procOp = clamp((p - 0.05) / (0.075 - 0.05), 0, 1);
+          processBlockEl.style.opacity = procOp.toFixed(3);
+          processBlockEl.style.pointerEvents = procOp > 0.5 && skyDispProgress < 0.2 ? 'auto' : 'none';
+
+          if (p > 0.078 && processRevealTime === null) {
+            processRevealTime = tSec;
+          }
+
+          if (processRevealTime !== null) {
+            const elapsed = tSec - processRevealTime;
+            for (let i = 0; i < processWords.length; i++) {
+              const wu = easeOutCubic((elapsed - i * 0.11) / 0.55);
+              processWords[i].style.opacity = wu.toFixed(3);
+              processWords[i].style.transform = 'translateY(' + ((1 - wu) * 0.35).toFixed(3) + 'em)';
+              processWords[i].style.filter = 'blur(' + ((1 - wu) * 6).toFixed(2) + 'px)';
+            }
+
+            const subU = easeOutCubic((elapsed - 0.7) / (1.2 - 0.7));
+            processSubline.style.opacity = subU.toFixed(3);
+            processSubline.style.transform = 'translateY(' + ((1 - subU) * 8).toFixed(2) + 'px)';
+
+            const btnU = easeOutCubic((elapsed - 0.85) / (1.35 - 0.85));
+            processBtn.style.opacity = btnU.toFixed(3);
+            processBtn.style.transform = 'translateY(' + ((1 - btnU) * 8).toFixed(2) + 'px)';
+          }
+        }
+
+        // 4. Update 12 Cards with staggered inertia
+        let allCardsSettled = true;
+        for (let i = 0; i < 12; i++) {
+          const target = computeTargetCardPose(i, p, tSec);
+          const disp = cardDisp[i];
+
+          if (!disp.initialized || p < 0.001 || target.direct || prefersReducedMotion) {
+            disp.x = target.x;
+            disp.y = target.y;
+            disp.rot = target.rot;
+            disp.scale = target.scale;
+            disp.opacity = target.opacity;
+            disp.initialized = true;
+          } else {
+            if (target.opacity === 0 && disp.opacity < 0.05 && Math.abs(target.x - disp.x) > W * 0.45) {
+              disp.x = target.x;
+              disp.y = target.y;
+              disp.rot = target.rot;
+            }
+            const w = 0.055 + (i % 4) * 0.008;
+            const kCard = 1 - Math.pow(1 - w, dt / 16.67);
+            disp.x += (target.x - disp.x) * kCard;
+            disp.y += (target.y - disp.y) * kCard;
+            disp.rot += (target.rot - disp.rot) * kCard;
+            disp.scale += (target.scale - disp.scale) * kCard;
+            disp.opacity += (target.opacity - disp.opacity) * kCard;
+          }
+
+          if (target.opacity > 0.05) {
+            const dist = Math.hypot(target.x - disp.x, target.y - disp.y);
+            const angDiff = Math.abs(target.rot - disp.rot);
+            if (dist > 3 || angDiff > 1) {
+              allCardsSettled = false;
+            }
+          }
+
+          const el = cardEls[i];
+          el.style.opacity = disp.opacity.toFixed(3);
+          el.style.transform =
+            'translate3d(' + disp.x.toFixed(2) + 'px, ' + disp.y.toFixed(2) + 'px, 0) rotate(' +
+            disp.rot.toFixed(2) + 'deg) scale(' + disp.scale.toFixed(3) + ')';
+        }
+
+        // 5. Sky Panel (.62 -> .74, gated on wheel finished & cards settled)
+        let skyTarget = 0;
+        if (p >= 0.62 && allCardsSettled) {
+          skyTarget = clamp((p - 0.62) / (0.74 - 0.62), 0, 1);
+        }
+
+        if (prefersReducedMotion) {
+          skyDispProgress = skyTarget;
+        } else {
+          const kSky = 1 - Math.pow(1 - 0.09, dt / 16.67);
+          skyDispProgress += (skyTarget - skyDispProgress) * kSky;
+          if (skyTarget === 1 && skyDispProgress > 0.998) skyDispProgress = 1;
+          if (skyTarget === 0 && skyDispProgress < 0.002) skyDispProgress = 0;
+        }
+
+        if (skyDispProgress <= 0.001) {
+          skyPanelEl.style.visibility = 'hidden';
+          skyWordsRevealTime = null;
+          skyWords.forEach((sw) => {
+            sw.style.opacity = '0';
+            sw.style.transform = 'translateY(0.3em)';
+            sw.style.filter = 'blur(6px)';
+          });
+          if (videoPlaying) {
+            skyVideoEl.pause();
+            videoPlaying = false;
+          }
+        } else {
+          skyPanelEl.style.visibility = 'visible';
+          const sp = easeInOutCubic(skyDispProgress);
+
+          const initLeft = isMobile ? 29 : 41.5;
+          const initRight = isMobile ? 29 : 41.5;
+          const initTop = isMobile ? 36 : 28;
+          const initBottom = isMobile ? 48 : 52;
+
+          const curTop = lerp(initTop, 0, sp).toFixed(2);
+          const curRight = lerp(initRight, 0, sp).toFixed(2);
+          const curBottom = lerp(initBottom, 0, sp).toFixed(2);
+          const curLeft = lerp(initLeft, 0, sp).toFixed(2);
+          const curRad = lerp(14, 0, sp).toFixed(2);
+
+          skyPanelEl.style.clipPath =
+            'inset(' + curTop + '% ' + curRight + '% ' + curBottom + '% ' + curLeft + '% round ' + curRad + 'px)';
+
+          const bgScale = lerp(1.18, 1.0, sp).toFixed(4);
+          skyPlateEl.style.transform = 'scale(' + bgScale + ')';
+          skyVideoEl.style.transform = 'scale(' + bgScale + ')';
+
+          if (!prefersReducedMotion && sy < manifestoTop) {
+            if (!videoPlaying) {
+              videoPlaying = true;
+              skyVideoEl.playbackRate = 0.6;
+              skyVideoEl.play().catch(function () {});
+            }
+          } else if (videoPlaying) {
+            skyVideoEl.pause();
+            videoPlaying = false;
+          }
+
+          if (skyDispProgress >= 0.98 && skyWordsRevealTime === null) {
+            skyWordsRevealTime = tSec;
+          } else if (skyDispProgress < 0.5) {
+            skyWordsRevealTime = null;
+          }
+
+          if (skyWordsRevealTime !== null) {
+            const swDelays = [0, 0.12, 0.24, 0.45, 0.57, 0.69, 0.81];
+            const swElapsed = tSec - skyWordsRevealTime;
+            for (let i = 0; i < skyWords.length; i++) {
+              const uSw = easeOutCubic((swElapsed - swDelays[i]) / 0.6);
+              skyWords[i].style.opacity = uSw.toFixed(3);
+              skyWords[i].style.transform = 'translateY(' + ((1 - uSw) * 0.3).toFixed(3) + 'em)';
+              skyWords[i].style.filter = 'blur(' + ((1 - uSw) * 6).toFixed(2) + 'px)';
+            }
+          }
+
+          const yawP = clamp((p - 0.74) / (0.88 - 0.74), 0, 1);
+          const yawDeg = lerp(-10, 10, yawP);
+
+          const rawQ = clamp((p - 0.88) / 0.09, 0, 1);
+          const skyGate = clamp((skyDispProgress - 0.90) / 0.10, 0, 1);
+          const q = Math.pow(rawQ, 1.6) * skyGate;
+
+          const bobPx = Math.sin(tSec * 1.6) * 6 * n * (1 - clamp(q * 3, 0, 1));
+          const camScale = lerp(0.5, 1.0, sp) * (1 + q * q * 28);
+          const finalYaw = yawDeg * (1 - clamp(q * 2.5, 0, 1));
+
+          skyCameraEl.style.transform =
+            'translate3d(0, ' + bobPx.toFixed(2) + 'px, 0) rotateY(' +
+            finalYaw.toFixed(2) + 'deg) scale(' + camScale.toFixed(4) + ')';
+
+          const blackoutOp = clamp((q - 0.45) / (0.85 - 0.45), 0, 1);
+          blackoutEl.style.opacity = blackoutOp.toFixed(3);
+        }
+
+        if (skyDispProgress <= 0.001) {
+          blackoutEl.style.opacity = '0';
+        }
+
+        // 6. Dark Nav Switch (past 98.5% of story or in manifesto)
+        const inManifesto = sy >= manifestoTop - H * 0.02;
+        const isDarkNav = p > 0.985 || inManifesto;
+        bodyEl.classList.toggle('dark-nav', isDarkNav);
+        updateActiveNavLink(p, inManifesto);
+
+        // 7. Manifesto Horizontal Scroll & Item Reveals
+        if (!prefersReducedMotion) {
+          const mSpan = Math.max(1, manifestoHeight - H);
+          const mp = clamp((sy - manifestoTop) / mSpan, 0, 1);
+          const startX = isMobile ? W * 0.08 : W * 0.06;
+          const endX = -(trackWidth - W * 0.9);
+          const trackX = lerp(startX, endX, mp);
+
+          manifestoTrackEl.style.transform = 'translate3d(' + trackX.toFixed(2) + 'px, -50%, 0)';
+
+          const sectionInView = sy + H >= manifestoTop + H * 0.2;
+          const triggerX = W * (isMobile ? 0.92 : 0.86);
+
+          if (sectionInView) {
+            for (let i = 0; i < manifestoWordItems.length; i++) {
+              const item = manifestoWordItems[i];
+              if (!item.revealed && trackX + item.leftEdge <= triggerX) {
+                item.revealed = true;
+                item.revealTime = tSec;
+              }
+              if (item.revealed) {
+                const elapsed = tSec - item.revealTime;
+                for (let c = 0; c < item.chars.length; c++) {
+                  const cu = easeOutCubic((elapsed - c * 0.035) / 0.5);
+                  const chEl = item.chars[c];
+                  chEl.style.opacity = cu.toFixed(3);
+                  chEl.style.transform =
+                    'translateY(' + ((1 - cu) * 0.55).toFixed(3) + 'em) rotate(' +
+                    ((1 - cu) * 14).toFixed(2) + 'deg)';
+                }
+              }
+            }
+
+            for (let i = 0; i < manifestoPopItems.length; i++) {
+              const item = manifestoPopItems[i];
+              if (!item.revealed && trackX + item.leftEdge <= triggerX) {
+                item.revealed = true;
+                item.revealTime = tSec + 0.12;
+              }
+              if (item.revealed) {
+                const elapsed = tSec - item.revealTime;
+                if (elapsed > 0) {
+                  const pu = clamp(elapsed / 0.5, 0, 1);
+                  const sc = backOut(pu, 1.15);
+                  const rot = lerp(-14, item.restRot, easeOutCubic(pu));
+                  item.el.style.opacity = clamp(pu * 3, 0, 1).toFixed(3);
+                  item.el.style.transform = 'rotate(' + rot.toFixed(2) + 'deg) scale(' + sc.toFixed(3) + ')';
+                }
+              }
+            }
+          }
+        } else {
+          manifestoWordItems.forEach((item) => {
+            item.chars.forEach((chEl) => {
+              chEl.style.opacity = '1';
+              chEl.style.transform = 'none';
+            });
+          });
+          manifestoPopItems.forEach((item) => {
+            item.el.style.opacity = '1';
+            item.el.style.transform = 'rotate(' + item.restRot + 'deg) scale(1)';
+          });
+        }
+
+        requestAnimationFrame(tick);
+      }
+
+      updateScaling();
+      requestAnimationFrame(tick);
+    })();
+  </script>
+</body>
+</html>
